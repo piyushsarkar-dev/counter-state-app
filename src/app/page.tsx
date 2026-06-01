@@ -1,10 +1,5 @@
 import Counter from "@/components/customui/Counter";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/shadcnui/card";
+import { Tabs, TabsList, TabsTrigger } from "@/components/shadcnui/tabs";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -15,14 +10,16 @@ export const metadata: Metadata = {
 const page = () => {
   return (
     <section className="grid h-[90dvh] place-items-center">
-      <Card className="w-sm">
-        <CardHeader>
-          <CardTitle className="text-center text-2xl">Counter App</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Counter />
-        </CardContent>
-      </Card>
+      <Tabs
+        defaultValue="counter"
+        className="w-[400px]">
+        <TabsList>
+          <TabsTrigger value="counter">Counter</TabsTrigger>
+          <TabsTrigger value="basic">Basic Counter</TabsTrigger>
+          <TabsTrigger value="pro">Pro Counter</TabsTrigger>
+        </TabsList>
+        <Counter />
+      </Tabs>
     </section>
   );
 };
