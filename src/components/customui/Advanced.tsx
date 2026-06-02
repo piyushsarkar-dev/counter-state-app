@@ -25,6 +25,7 @@ const Advanced = () => {
     setCount(0);
     setCycleValue(0);
     setMainValue(0);
+    setCustomValue("");
   };
 
   // ADVANCED A LOGIC DONE
@@ -46,9 +47,7 @@ const Advanced = () => {
 
   const [mainValue, setMainValue] = useState(0);
   const [customValue, setCustomValue] = useState("");
-  const plusTenB = () => {
-    setMainValue(mainValue + 10);
-  };
+
   return (
     <>
       <TabsContent value="advanced">
@@ -104,10 +103,9 @@ const Advanced = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-2 gap-3">
-            <Button>-10</Button>
-            <Button>+10</Button>
             <div className="col-span-2 flex gap-2">
               <Input
+                value={customValue}
                 onChange={(e) => setCustomValue(e.target.value)}
                 type="number"
                 placeholder="Custom Number"
