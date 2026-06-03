@@ -47,6 +47,15 @@ const Advanced = () => {
 
   const [mainValue, setMainValue] = useState(0);
   const [customValue, setCustomValue] = useState("");
+  const loopIn = () => {
+    let current = mainValue;
+
+    const interval = setInterval(() => {
+      current++;
+
+      setMainValue(current + 1);
+    }, 1000);
+  };
 
   return (
     <>
@@ -103,6 +112,8 @@ const Advanced = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-2 gap-3">
+            <Button onClick={loopOut}>Loop -1</Button>
+            <Button onClick={loopIn}>Loop +1</Button>
             <div className="col-span-2 flex gap-2">
               <Input
                 value={customValue}
@@ -119,8 +130,11 @@ const Advanced = () => {
             </div>
             <Button
               onClick={refresh}
-              className="col-span-2 transition-colors hover:bg-red-500 hover:text-white">
+              className="transition-colors hover:bg-red-500 hover:text-white">
               Refresh
+            </Button>
+            <Button className="transition-colors hover:bg-red-500 hover:text-white">
+              Stop
             </Button>
           </CardContent>
         </Card>
