@@ -1,11 +1,11 @@
 "use client";
 
 import NumberFlow from "@number-flow/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../shadcnui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../shadcnui/card";
-import { Input } from "../shadcnui/input";
 import { TabsContent } from "../shadcnui/tabs";
+
 const Advanced = () => {
   const [count, setCount] = useState(0);
 
@@ -21,14 +21,7 @@ const Advanced = () => {
   const minusHundred = () => {
     setCount(count - 100);
   };
-  const refresh = () => {
-    setCount(0);
-    setCycleValue(0);
-    setMainValue(0);
-    setCustomValue("");
-  };
 
-  // ADVANCED A LOGIC DONE
   const [value, setCycleValue] = useState(0);
   const cyclePlus = () => {
     setCycleValue(value + 10);
@@ -39,26 +32,58 @@ const Advanced = () => {
   const random = () => {
     const min = -10;
     const max = 10;
-
     setCycleValue(Math.floor(Math.random() * (max - min + 1)) + min);
   };
 
-  //ADVANCED B LOCIC DONE
+  // ADVANCED B LOGIC
+  const [main, setMain] = useState(0);
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
 
-  const [mainValue, setMainValue] = useState(0);
-  const [customValue, setCustomValue] = useState("");
-  const loopIn = () => {
-    let current = mainValue;
+  useEffect(() => {
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+        setIntervalId(null);
+      }
+    };
+  }, [intervalId]);
 
-    const interval = setInterval(() => {
-      current++;
-
-      setMainValue(current + 1);
+  const loopPlus = () => {
+    if (intervalId) return;
+    const id = setInterval(() => {
+      setMain((plus) => plus + 1);
     }, 1000);
+    setIntervalId(id);
+  };
+
+  const loopMinus = () => {
+    if (intervalId) return;
+    const id = setInterval(() => {
+      setMain((minus) => minus - 1);
+    }, 1000);
+    setIntervalId(id);
+  };
+
+  const pauseLoop = () => {
+    if (intervalId) {
+      clearInterval(intervalId);
+      setIntervalId(null);
+    }
+  };
+
+  const refresh = () => {
+    setCount(0);
+    setCycleValue(0);
+    setMain(0);
+    if (intervalId) {
+      clearInterval(intervalId);
+      setIntervalId(null);
+    }
   };
 
   return (
-    <>
+    <div>
+      {/* PART A  (General Counter) */}
       <TabsContent value="advanced">
         <Card>
           <CardHeader>
@@ -77,12 +102,12 @@ const Advanced = () => {
           </CardContent>
         </Card>
       </TabsContent>
-      {/* PART A  */}
+
+      {/* PART A (Cycle & Random) */}
       <TabsContent value="advanceda">
         <Card>
           <CardHeader>
             <CardTitle className="text-center text-2xl">
-              {" "}
               <NumberFlow value={value} />
             </CardTitle>
           </CardHeader>
@@ -102,44 +127,44 @@ const Advanced = () => {
           </CardContent>
         </Card>
       </TabsContent>
-      {/* PART B */}
 
+      {/* PART B (Loop Control) */}
       <TabsContent value="advancedb">
         <Card>
           <CardHeader>
             <CardTitle className="text-center text-2xl">
-              <NumberFlow value={mainValue} />
+              <NumberFlow value={main} />
             </CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-2 gap-3">
-            <Button onClick={loopOut}>Loop -1</Button>
-            <Button onClick={loopIn}>Loop +1</Button>
-            <div className="col-span-2 flex gap-2">
-              <Input
-                value={customValue}
-                onChange={(e) => setCustomValue(e.target.value)}
-                type="number"
-                placeholder="Custom Number"
-                className="flex-1"
-              />
-              <Button
-                disabled={customValue === ""}
-                onClick={() => setMainValue(Number(customValue))}>
-                Update State
-              </Button>
-            </div>
+            <Button
+              onClick={loopMinus}
+              disabled={intervalId !== null}>
+              Loop -1
+            </Button>
+            <Button
+              onClick={loopPlus}
+              disabled={intervalId !== null}>
+              Loop +1
+            </Button>
+
+            <Button
+              onClick={pauseLoop}
+              disabled={intervalId === null}
+              className="col-span-2 transition-colors hover:bg-blue-600 hover:text-white disabled:bg-gray-400">
+              Pause
+            </Button>
+
             <Button
               onClick={refresh}
-              className="transition-colors hover:bg-red-500 hover:text-white">
+              disabled={intervalId !== null}
+              className="col-span-2 transition-colors hover:bg-red-500 hover:text-white disabled:bg-gray-400">
               Refresh
-            </Button>
-            <Button className="transition-colors hover:bg-red-500 hover:text-white">
-              Stop
             </Button>
           </CardContent>
         </Card>
       </TabsContent>
-    </>
+    </div>
   );
 };
 
