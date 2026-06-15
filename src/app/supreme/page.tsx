@@ -9,8 +9,6 @@ const page = () => {
         className="w-[400px]">
         <TabsList>
           <TabsTrigger value="elite">Elite</TabsTrigger>
-          <TabsTrigger value="ultimate">Ultimate</TabsTrigger>
-          <TabsTrigger value="quantum">Quantum</TabsTrigger>
         </TabsList>
         <Supreme />
       </Tabs>

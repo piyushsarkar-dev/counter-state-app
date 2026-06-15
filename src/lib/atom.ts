@@ -1,3 +1,3 @@
 import { atom } from "jotai";
 
-export const globalValue = atom(10);
+export const globalValue = atom(0);
