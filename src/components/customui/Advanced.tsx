@@ -1,7 +1,7 @@
 "use client";
 
 import NumberFlow from "@number-flow/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../shadcnui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../shadcnui/card";
 import { TabsContent } from "../shadcnui/tabs";
@@ -38,6 +38,15 @@ const Advanced = () => {
   // ADVANCED B LOGIC
   const [main, setMain] = useState(0);
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+        setIntervalId(null);
+      }
+    };
+  }, [intervalId]);
 
   const loopPlus = () => {
     if (intervalId) return;

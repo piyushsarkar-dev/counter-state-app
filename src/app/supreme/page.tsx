@@ -5,7 +5,7 @@ const page = () => {
   return (
     <section className="grid h-[90dvh] place-items-center">
       <Tabs
-        defaultValue="counter"
+        defaultValue="elite"
         className="w-[400px]">
         <TabsList>
           <TabsTrigger value="elite">Elite</TabsTrigger>

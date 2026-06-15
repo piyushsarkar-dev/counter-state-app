@@ -13,15 +13,6 @@ const Supreme = () => {
   const [value, setValue] = useAtom(globalValue);
   const [inputValue, setInputValue] = useState("");
 
-  const handleSubmit = () => {
-    const nextValue = Number(inputValue);
-
-    if (Number.isNaN(nextValue)) return;
-
-    setValue(nextValue);
-    setInputValue("");
-  };
-
   return (
     <>
       {/* Elite */}
@@ -36,13 +27,14 @@ const Supreme = () => {
           <CardContent className="text-muted-foreground text-sm">
             <div className="flex w-full gap-2">
               <Input
-                type="number"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 className="flex-1"
-                placeholder="Enter Your Count"
               />
-              <Button onClick={handleSubmit}>Submit</Button>
+
+              <Button onClick={() => setValue(Number(inputValue))}>
+                Submit
+              </Button>
             </div>
           </CardContent>
         </Card>
